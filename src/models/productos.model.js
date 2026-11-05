@@ -29,7 +29,16 @@ async function buscarPorId(id) {
     firestoreId: doc.id
   };
 }
+async function buscarPorCategoria(categoria) {
+  const snapshot = await coleccionProductos
+    .where('categoria', '==', categoria)
+    .get();
 
+  return snapshot.docs.map(doc => ({
+    ...doc.data(),
+    firestoreId: doc.id
+  }));
+}
 async function agregarProducto(producto) {
   const referencia = await coleccionProductos.add(producto);
 
@@ -44,4 +53,4 @@ async function agregarProducto(producto) {
     await coleccionProductos.doc(firestoreId).delete();
 }
   
-export { obtenerTodos, buscarPorId, agregarProducto, eliminarProducto };
+export { obtenerTodos, buscarPorId, buscarPorCategoria, agregarProducto, eliminarProducto };

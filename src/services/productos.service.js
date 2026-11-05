@@ -2,16 +2,20 @@
 import {
   obtenerTodos,
   buscarPorId,
+  buscarPorCategoria as buscarPorCategoriaEnModelo,
   agregarProducto,
   eliminarProducto
 } from '../models/productos.model.js';
-
 function calcularDescuento(precio) {
   return precio * 0.8;
 }
 
 async function buscarProductoPorId(id) {
   return await buscarPorId(id);
+}
+
+async function buscarPorCategoria(categoria) {
+  return await buscarPorCategoriaEnModelo(categoria);
 }
 
 async function obtenerTodosLosProductos() {
@@ -49,6 +53,7 @@ async function eliminarProductoPorId(id) {
 export {
   calcularDescuento,
   buscarProductoPorId,
+  buscarPorCategoria,
   obtenerTodosLosProductos,
   crearProducto,
   eliminarProductoPorId
