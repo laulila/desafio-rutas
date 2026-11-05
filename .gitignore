@@ -1,0 +1,15 @@
+
+# Dependencias
+node_modules/
+
+# Variables de entorno
+.env
+
+# Credenciales privadas de Firebase
+private/
+
+# Archivos generados
+dist/
+
+# Archivos del sistema macOS
+.DS_Store
