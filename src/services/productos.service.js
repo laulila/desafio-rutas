@@ -4,6 +4,7 @@ import {
   buscarPorId,
   buscarPorCategoria as buscarPorCategoriaEnModelo,
   agregarProducto,
+  actualizarProducto,
   eliminarProducto
 } from '../models/productos.model.js';
 function calcularDescuento(precio) {
@@ -38,6 +39,18 @@ async function crearProducto(producto) {
 
   return await agregarProducto(nuevoProducto);
 }
+async function actualizarProductoPorId(id, datosActualizados) {
+  const producto = await buscarPorId(id);
+
+  if (!producto) {
+    return undefined;
+  }
+
+  return await actualizarProducto(
+    producto.firestoreId,
+    datosActualizados
+  );
+}
 async function eliminarProductoPorId(id) {
   const producto = await buscarPorId(id);
 
@@ -56,5 +69,6 @@ export {
   buscarPorCategoria,
   obtenerTodosLosProductos,
   crearProducto,
+  actualizarProductoPorId,
   eliminarProductoPorId
 };

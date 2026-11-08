@@ -5,6 +5,7 @@ import {
   buscarPorCategoria,
   obtenerTodosLosProductos,
   crearProducto,
+  actualizarProductoPorId,
   eliminarProductoPorId
 } from '../services/productos.service.js';
 
@@ -84,7 +85,38 @@ async function crearProductoController(req, res) {
     });
   }
 }
+async function actualizarProductoController(req, res) {
+  try {
+    const id = req.params.id;
+    const datosActualizados = req.body;
 
+    if (!datosActualizados || Object.keys(datosActualizados).length === 0) {
+      return res.status(400).json({
+        message: 'Debe enviar datos para actualizar'
+      });
+    }
+
+    const productoActualizado = await actualizarProductoPorId(
+      id,
+      datosActualizados
+    );
+
+    if (!productoActualizado) {
+      return res.status(404).json({
+        message: 'Producto no encontrado'
+      });
+    }
+
+    return res.status(200).json(productoActualizado);
+
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      message: 'Error interno del servidor'
+    });
+  }
+}
 async function eliminarProductoController(req, res) {
   try {
     const id = req.params.id;
@@ -114,5 +146,6 @@ export {
   obtenerProductoPorId,
   obtenerProductos,
   crearProductoController,
+  actualizarProductoController,
   eliminarProductoController
 };

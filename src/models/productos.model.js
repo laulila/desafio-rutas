@@ -29,6 +29,7 @@ async function buscarPorId(id) {
     firestoreId: doc.id
   };
 }
+
 async function buscarPorCategoria(categoria) {
   const snapshot = await coleccionProductos
     .where('categoria', '==', categoria)
@@ -39,6 +40,7 @@ async function buscarPorCategoria(categoria) {
     firestoreId: doc.id
   }));
 }
+
 async function agregarProducto(producto) {
   const referencia = await coleccionProductos.add(producto);
 
@@ -48,9 +50,24 @@ async function agregarProducto(producto) {
   };
 }
 
+async function actualizarProducto(firestoreId, producto) {
+  await coleccionProductos.doc(firestoreId).update(producto);
 
-  async function eliminarProducto(firestoreId) {
-    await coleccionProductos.doc(firestoreId).delete();
+  return {
+    ...producto,
+    firestoreId
+  };
 }
-  
-export { obtenerTodos, buscarPorId, buscarPorCategoria, agregarProducto, eliminarProducto };
+
+async function eliminarProducto(firestoreId) {
+  await coleccionProductos.doc(firestoreId).delete();
+}
+
+export {
+  obtenerTodos,
+  buscarPorId,
+  buscarPorCategoria,
+  agregarProducto,
+  actualizarProducto,
+  eliminarProducto
+};
