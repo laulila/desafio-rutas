@@ -85,14 +85,50 @@ async function crearProductoController(req, res) {
     });
   }
 }
+
 async function actualizarProductoController(req, res) {
   try {
     const id = req.params.id;
     const datosActualizados = req.body;
 
-    if (!datosActualizados || Object.keys(datosActualizados).length === 0) {
+    if (
+      !datosActualizados ||
+      typeof datosActualizados !== 'object' ||
+      Array.isArray(datosActualizados) ||
+      Object.keys(datosActualizados).length === 0
+    ) {
       return res.status(400).json({
         message: 'Debe enviar datos para actualizar'
+      });
+    }
+
+    if (
+      datosActualizados.nombre !== undefined &&
+      (typeof datosActualizados.nombre !== 'string' ||
+        !datosActualizados.nombre.trim())
+    ) {
+      return res.status(400).json({
+        message: 'El nombre debe ser un texto válido'
+      });
+    }
+
+    if (
+      datosActualizados.precio !== undefined &&
+      (typeof datosActualizados.precio !== 'number' ||
+        datosActualizados.precio <= 0)
+    ) {
+      return res.status(400).json({
+        message: 'El precio debe ser un número mayor que cero'
+      });
+    }
+
+    if (
+      datosActualizados.categoria !== undefined &&
+      (typeof datosActualizados.categoria !== 'string' ||
+        !datosActualizados.categoria.trim())
+    ) {
+      return res.status(400).json({
+        message: 'La categoría debe ser un texto válido'
       });
     }
 
